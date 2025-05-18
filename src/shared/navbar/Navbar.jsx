@@ -20,12 +20,15 @@ const Navbar = () => {
 
         {user ? (
           <>
-            <button
-              onClick={handleLogOut}
-              className="bg-blue-400 border border-blue-400 rounded-[60px] px-10 py-2.5 cursor-pointer text-white font-medium hover:bg-white hover:border-blue-400 hover:text-blue-400 transition-all ease-in-out duration-300"
-            >
-              Logout
-            </button>
+            <div className="space-x-1.5">
+              <span>{user?.displayName}</span>
+              <button
+                onClick={handleLogOut}
+                className="bg-blue-400 border border-blue-400 rounded-[60px] px-10 py-2.5 cursor-pointer text-white font-medium hover:bg-white hover:border-blue-400 hover:text-blue-400 transition-all ease-in-out duration-300"
+              >
+                Logout
+              </button>
+            </div>
           </>
         ) : (
           <>
@@ -33,7 +36,7 @@ const Navbar = () => {
               to={"auth/signin"}
               className="bg-blue-400 border border-blue-400 rounded-[60px] px-10 py-2.5 cursor-pointer text-white font-medium hover:bg-white hover:border-blue-400 hover:text-blue-400 transition-all ease-in-out duration-300"
             >
-              Log In
+              LogIn
             </Link>
           </>
         )}

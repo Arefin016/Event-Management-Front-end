@@ -1,22 +1,33 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../providers/AuthProvider";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
-  const { creatUser } = useContext(AuthContext);
+  const { creatUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
     creatUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
       console.log(loggedUser);
+      updateUserProfile(data.name, data.photoURL)
+        .then(() => {
+          console.log("User profile info updated");
+          reset();
+          toast.success("User Created Successfully");
+          navigate("/");
+        })
+        .catch((error) => console.log(error));
     });
   };
 
@@ -46,6 +57,29 @@ const Signup = () => {
           </label>
           {errors.name && (
             <span className="text-red-600 font-medium">Name is required</span>
+          )}
+        </div>
+        {/* This is the Photo URL section */}
+        <div className="relative w-full mt-6">
+          <input
+            type="text"
+            placeholder=" "
+            id="name"
+            {...register("photoURL", { required: true })}
+            className="peer w-full border border-gray-300 py-3.5 px-3.5 rounded-[10px] focus:outline-none focus:border-blue-500"
+          />
+          <label
+            htmlFor="name"
+            className="absolute left-3.5 -top-2.5 bg-white px-1 text-gray-500 text-sm transition-all 
+             peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+             peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500"
+          >
+            Photo URL
+          </label>
+          {errors.photoURL && (
+            <span className="text-red-600 font-medium">
+              Photo URL is required
+            </span>
           )}
         </div>
         {/* This is the email section */}
@@ -121,7 +155,6 @@ const Signup = () => {
             </p>
           )}
         </div>
-
         {/* This is the submit button */}
         <div className="mt-3 flex justify-center">
           <button
