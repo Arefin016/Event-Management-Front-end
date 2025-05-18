@@ -4,6 +4,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../providers/AuthProvider";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const Signup = () => {
   const {
@@ -14,6 +15,7 @@ const Signup = () => {
   } = useForm();
   const { creatUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -23,9 +25,21 @@ const Signup = () => {
       updateUserProfile(data.name, data.photoURL)
         .then(() => {
           console.log("User profile info updated");
-          reset();
-          toast.success("User Created Successfully");
-          navigate("/");
+          // create user information in the database
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            photo: data.photoURL,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log("User added to the database");
+              reset();
+              toast.success("User Created Successfully");
+              navigate("/");
+            }
+          });
         })
         .catch((error) => console.log(error));
     });

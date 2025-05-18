@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const Navbar = () => {
@@ -11,12 +11,48 @@ const Navbar = () => {
       .catch((error) => console.log(error));
   };
 
+  const navLinks = [
+    {
+      path: "/event",
+      title: "Events",
+    },
+    {
+      path: "/content",
+      title: "Content",
+    },
+    {
+      path: "/contact",
+      title: "Contact",
+    },
+    {
+      path: "/content-creators-dashboard/dashboard",
+      title: "Creator Dashboard",
+    },
+  ];
+
   return (
     <section className="container mx-auto mt-2.5">
       <div className="flex justify-between">
         <p className="text-2xl text-blue-400 font-semibold">My Event</p>
 
-        <Link to={"/event"}>Event</Link>
+        <ul className="hidden xl:flex items-center 4xl:gap-[60px] gap-6">
+          {navLinks?.map((item) => (
+            <li key={item?.title}>
+              <NavLink
+                to={item?.path}
+                className={({ isActive }) =>
+                  ` ${
+                    isActive
+                      ? "text-blue-400 text-base font-semibold leading-[25.6px]"
+                      : "navlink-class"
+                  } hover:text-blue-400 duration-300 transition-all`
+                }
+              >
+                <span>{item?.title}</span>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
 
         {user ? (
           <>
