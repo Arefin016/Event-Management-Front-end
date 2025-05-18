@@ -69,7 +69,12 @@ const Signup = () => {
               type={showPassword ? "text" : "password"}
               placeholder=" "
               id="password"
-              {...register("password", { required: true })}
+              {...register("password", {
+                required: true,
+                minLength: 6,
+                maxLength: 20,
+                pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
+              })}
               className="peer w-full border border-gray-300 py-3.5 px-3.5 pr-10 rounded-[10px] focus:outline-none focus:border-blue-500"
             />
             <label
@@ -88,10 +93,24 @@ const Signup = () => {
             </div>
           </div>
           {/* Error message */}
-          {errors.password && (
-            <span className="text-red-600 font-medium text-sm mt-1 block">
-              Password is required
-            </span>
+          {errors.password?.type === "required" && (
+            <p className="text-red-600 font-medium">Password is required</p>
+          )}
+          {errors.password?.type === "minLength" && (
+            <p className="text-red-600 font-medium">
+              Password must be 6 characters
+            </p>
+          )}
+          {errors.password?.type === "maxLength" && (
+            <p className="text-red-600 font-medium">
+              Password must be less than 20 characters
+            </p>
+          )}
+          {errors.password?.type === "pattern" && (
+            <p className="text-red-600 font-medium">
+              Password must have one Uppercase, one Lowercase, one Number and
+              one Special characters
+            </p>
           )}
         </div>
 
