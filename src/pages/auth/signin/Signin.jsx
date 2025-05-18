@@ -1,17 +1,34 @@
-import { useState } from "react";
-import { Link } from "react-router";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../../providers/AuthProvider";
+import toast from "react-hot-toast";
 
 const Signin = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const { singIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
 
-  const [showPassword, setShowPassword] = useState(false);
+  const onSubmit = (data) => {
+    console.log(data);
+    singIn(data.email, data.password).then((result) => {
+      const user = result.user;
+      console.log(user);
+      toast.success("User Login successful!");
+      navigate(from, { replace: true });
+    });
+  };
+
   return (
     <div className="max-w-[500px] mx-auto mt-[100px] shadow-2xl p-5 rounded-2xl ">
       <p className="text-center text-3xl font-semibold">Login Here</p>

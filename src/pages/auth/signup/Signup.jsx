@@ -1,17 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const Signup = () => {
   const {
     register,
     handleSubmit,
-    // reset,
     formState: { errors },
   } = useForm();
+  const { creatUser } = useContext(AuthContext);
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    creatUser(data.email, data.password).then((result) => {
+      const loggedUser = result.user;
+      console.log(loggedUser);
+    });
+  };
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -127,9 +134,9 @@ const Signup = () => {
       </form>
       <p className="text-center my-3.5 text-base">
         <small>
-          New Here?{" "}
-          <Link className="text-blue-400 underline" to={"/auth/signup"}>
-            Create an account
+          Already have an account?{" "}
+          <Link className="text-blue-400 underline" to={"/auth/signin"}>
+            Sign In
           </Link>
         </small>
       </p>
