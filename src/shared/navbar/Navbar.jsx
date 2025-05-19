@@ -14,19 +14,11 @@ const Navbar = () => {
   const navLinks = [
     {
       path: "/event",
-      title: "Events",
+      title: "All Events",
     },
     {
-      path: "/content",
-      title: "Content",
-    },
-    {
-      path: "/contact",
-      title: "Contact",
-    },
-    {
-      path: "/content-creators-dashboard/dashboard",
-      title: "Creator Dashboard",
+      path: "/create-event",
+      title: "Create Event",
     },
   ];
 

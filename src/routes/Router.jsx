@@ -6,6 +6,7 @@ import Signup from "../pages/auth/signup/Signup";
 import Signin from "../pages/auth/signin/Signin";
 import Event from "../pages/event/Event";
 import PrivateRoute from "./PrivateRoute";
+import CreateEvent from "../pages/create-event/CreateEvent";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Event />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "create-event",
+        element: (
+          <PrivateRoute>
+            <CreateEvent />
           </PrivateRoute>
         ),
       },
