@@ -7,7 +7,7 @@ const useViewEvents = () => {
   const { data: viewEvent = [] } = useQuery({
     queryKey: ["viewEvents"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/view-events");
+      const res = await axiosPublic.get("/create-event");
       return res.data;
     },
   });

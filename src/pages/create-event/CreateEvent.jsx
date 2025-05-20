@@ -1,7 +1,15 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useCreateEvents from "../../hooks/useCreateEvents";
+// import { useNavigate } from "react-router";
 
 const CreateEvent = () => {
+  // const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [, refetch] = useCreateEvents();
   const {
     register,
     handleSubmit,
@@ -16,23 +24,24 @@ const CreateEvent = () => {
       time: data.time,
       location: data.location,
       description: data.description,
+      email: user?.email,
     };
     console.log(newEvent);
 
-    fetch("http://localhost:5000/create-event", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(newEvent),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.insertedId) {
+    axiosSecure
+      .post("/create-event", newEvent)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
           toast.success("Create Event Successfully");
           reset();
+          refetch();
+          // navigate("/event");
         }
+      })
+      .catch((error) => {
+        console.error("Event creation failed:", error);
+        toast.error("Failed to create event");
       });
   };
 

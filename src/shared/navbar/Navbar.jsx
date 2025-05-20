@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../providers/AuthProvider";
+import { FaCartPlus } from "react-icons/fa";
+import useCreateEvents from "../../hooks/useCreateEvents";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+const [createEvent, refetch] = useCreateEvents();
 
   const handleLogOut = () => {
     logOut()
@@ -20,6 +23,17 @@ const Navbar = () => {
       path: "/create-event",
       title: "Create Event",
     },
+    {
+      path: "/save-event",
+      title: (
+        <div className="relative">
+          <FaCartPlus className="text-xl text-blue-500" />
+          <span className="absolute -top-3 -right-3.5 bg-red-600 text-white text-xs font-bold px-1.5 rounded-full">
+            {createEvent.length}
+          </span>
+        </div>
+      ),
+    },
   ];
 
   return (
@@ -27,20 +41,18 @@ const Navbar = () => {
       <div className="flex justify-between">
         <p className="text-2xl text-blue-400 font-semibold">My Event</p>
 
-        <ul className="hidden xl:flex items-center 4xl:gap-[60px] gap-6">
-          {navLinks?.map((item) => (
-            <li key={item?.title}>
+        <ul className="hidden xl:flex items-center gap-6">
+          {navLinks.map((item, index) => (
+            <li key={index}>
               <NavLink
-                to={item?.path}
+                to={item.path}
                 className={({ isActive }) =>
-                  ` ${
-                    isActive
-                      ? "text-blue-400 text-base font-semibold leading-[25.6px]"
-                      : "navlink-class"
-                  } hover:text-blue-400 duration-300 transition-all`
+                  `${
+                    isActive ? "text-blue-400 font-semibold" : "text-gray-600"
+                  } hover:text-blue-400 transition`
                 }
               >
-                <span>{item?.title}</span>
+                {item.title}
               </NavLink>
             </li>
           ))}
