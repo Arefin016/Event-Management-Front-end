@@ -6,7 +6,7 @@ import useCreateEvents from "../../hooks/useCreateEvents";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-const [createEvent, refetch] = useCreateEvents();
+  const [createEvent] = useCreateEvents();
 
   const handleLogOut = () => {
     logOut()
@@ -39,7 +39,9 @@ const [createEvent, refetch] = useCreateEvents();
   return (
     <section className="container mx-auto mt-2.5">
       <div className="flex justify-between">
-        <p className="text-2xl text-blue-400 font-semibold">My Event</p>
+        <Link to={"/"} className="text-2xl text-blue-400 font-semibold">
+          My Event
+        </Link>
 
         <ul className="hidden xl:flex items-center gap-6">
           {navLinks.map((item, index) => (

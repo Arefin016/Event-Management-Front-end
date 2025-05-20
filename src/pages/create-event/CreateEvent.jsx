@@ -3,10 +3,10 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useCreateEvents from "../../hooks/useCreateEvents";
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const CreateEvent = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [, refetch] = useCreateEvents();
@@ -36,7 +36,7 @@ const CreateEvent = () => {
           toast.success("Create Event Successfully");
           reset();
           refetch();
-          // navigate("/event");
+          navigate("/save-event");
         }
       })
       .catch((error) => {

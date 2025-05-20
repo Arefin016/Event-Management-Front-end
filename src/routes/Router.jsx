@@ -7,6 +7,7 @@ import Signin from "../pages/auth/signin/Signin";
 import Event from "../pages/event/Event";
 import PrivateRoute from "./PrivateRoute";
 import CreateEvent from "../pages/create-event/CreateEvent";
+import IndividualEvents from "../pages/individual-events/IndividualEvents";
 
 export const router = createBrowserRouter([
   {
@@ -19,9 +20,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "event",
+        element: <Event />,
+      },
+      {
+        path: "save-event",
         element: (
           <PrivateRoute>
-            <Event />
+            <IndividualEvents />
           </PrivateRoute>
         ),
       },

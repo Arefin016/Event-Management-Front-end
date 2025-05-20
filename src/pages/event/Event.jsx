@@ -15,7 +15,7 @@ const Event = () => {
   const totalPages = Math.ceil(viewEvent.length / eventsPerPage);
 
   return (
-    <section>
+    <section className="mx-5">
       <div>
         <p className="text-center text-3xl font-semibold">View All Event</p>
 
