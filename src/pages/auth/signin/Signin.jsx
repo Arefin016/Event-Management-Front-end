@@ -4,12 +4,14 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../providers/AuthProvider";
 import toast from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { singIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
 
   const from = location.state?.from?.pathname || "/";
 
@@ -21,12 +23,21 @@ const Signin = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    singIn(data.email, data.password).then((result) => {
-      const user = result.user;
-      console.log(user);
-      toast.success("User Login successful!");
-      navigate(from, { replace: true });
-    });
+    setLoading(true);
+    singIn(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast.success("User Login successful!");
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Login failed!");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -87,12 +98,15 @@ const Signin = () => {
           </div>
         </div>
         {/* This is the submit button */}
-        <div className="mt-3 flex justify-center">
+        <div className="flex justify-center mt-2.5">
           <button
-            className="bg-blue-400 border text-white px-10 py-2.5 rounded-[10px] cursor-pointer hover:bg-white hover:border border-blue-400 hover:text-blue-400 duration-300 ease-in-out transition-all"
+            className="bg-blue-400 border text-white px-10 py-2.5 rounded-[10px] cursor-pointer hover:bg-white hover:border border-blue-400 hover:text-blue-400 duration-300 ease-in-out transition-all flex justify-center items-center gap-2"
             type="submit"
+            disabled={loading}
           >
-            Login
+            {loading && <ClipLoader color="#3b82f6" size={20} />}{" "}
+            {/* spinner color and size */}
+            {!loading && "Login"}
           </button>
         </div>
       </form>

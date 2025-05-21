@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../providers/AuthProvider";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { ClipLoader } from "react-spinners";
 
 const Signup = () => {
   const {
@@ -14,11 +15,14 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
   const { creatUser, updateUserProfile } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 
   const onSubmit = (data) => {
     console.log(data);
+    setLoading(true);
     creatUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
       console.log(loggedUser);
@@ -39,13 +43,12 @@ const Signup = () => {
               toast.success("User Created Successfully");
               navigate("/");
             }
+            setLoading(false);
           });
         })
         .catch((error) => console.log(error));
     });
   };
-
-  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="max-w-[500px] mx-auto mt-11 shadow-2xl p-5 rounded-2xl ">
@@ -170,12 +173,13 @@ const Signup = () => {
           )}
         </div>
         {/* This is the submit button */}
-        <div className="mt-3 flex justify-center">
+        <div className="flex justify-center mt-2.5">
           <button
-            className="bg-blue-400 border text-white px-10 py-2.5 rounded-[10px] cursor-pointer hover:bg-white hover:border border-blue-400 hover:text-blue-400 duration-300 ease-in-out transition-all"
+            className="bg-blue-400 border text-white px-10 py-2.5 rounded-[10px] cursor-pointer hover:bg-white hover:border border-blue-400 hover:text-blue-400 duration-300 ease-in-out transition-all flex justify-center items-center gap-2"
             type="submit"
+            disabled={loading}
           >
-            Signup
+            {loading ? <ClipLoader color="#3b82f6" size={20} /> : "SignUp"}
           </button>
         </div>
       </form>
