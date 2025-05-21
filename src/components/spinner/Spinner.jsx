@@ -1,7 +1,9 @@
+import { ScaleLoader } from "react-spinners";
+
 const Spinner = () => {
   return (
-    <div className="flex items-center justify-center h-full">
-      <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    <div className="flex justify-center items-center h-full">
+      <ScaleLoader color="#3B82F6" size={30} />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import useCreateEvents from "../../hooks/useCreateEvents";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const IndividualEvents = () => {
   const [createEvent, refetch] = useCreateEvents();
@@ -72,9 +73,12 @@ const IndividualEvents = () => {
 
                 {event.email === user?.email && (
                   <div className="mt-4 flex gap-2">
-                    <button className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition cursor-pointer">
+                    <Link
+                      to={`/update-event/${event._id}`}
+                      className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition cursor-pointer"
+                    >
                       Edit
-                    </button>
+                    </Link>
                     <button
                       onClick={() => handleDelete(event._id)}
                       className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition cursor-pointer"

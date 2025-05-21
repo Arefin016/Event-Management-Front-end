@@ -8,6 +8,7 @@ import Event from "../pages/event/Event";
 import PrivateRoute from "./PrivateRoute";
 import CreateEvent from "../pages/create-event/CreateEvent";
 import IndividualEvents from "../pages/individual-events/IndividualEvents";
+import UpdateEvent from "../pages/update-event/UpdateEvent";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,16 @@ export const router = createBrowserRouter([
             <CreateEvent />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "update-event/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateEvent />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/specefic-event/${params.id}`),
       },
     ],
   },
